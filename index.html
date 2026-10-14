@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Md. Rajaul Karim | Software Developer</title>
 <style>
-  :root {
+  :root,
+  [data-theme="dark"] {
     --bg: #0b1120;
     --bg-alt: #111a2e;
     --card: #16213a;
@@ -16,7 +17,27 @@
     --text: #e6edf6;
     --text-dim: #9fb0c9;
     --border: #243453;
+    --nav-bg: rgba(11, 17, 32, 0.92);
+    --btn-primary-text: #051022;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
   }
+
+  [data-theme="light"] {
+    --bg: #f8fafc;
+    --bg-alt: #f1f5f9;
+    --card: #ffffff;
+    --card-hover: #f8fafc;
+    --accent: #0284c7;
+    --accent-glow: rgba(2, 132, 199, 0.25);
+    --accent-soft: rgba(2, 132, 199, 0.08);
+    --text: #0f172a;
+    --text-dim: #475569;
+    --border: #e2e8f0;
+    --nav-bg: rgba(255, 255, 255, 0.92);
+    --btn-primary-text: #ffffff;
+    --card-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+  }
+
   * { box-sizing: border-box; }
   body {
     margin: 0;
@@ -24,6 +45,7 @@
     background: var(--bg);
     color: var(--text);
     line-height: 1.6;
+    transition: background 0.3s ease, color 0.3s ease;
   }
   a { color: var(--accent); text-decoration: none; transition: all 0.2s ease; }
   .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
@@ -31,9 +53,10 @@
   /* NAV */
   nav {
     position: sticky; top: 0; z-index: 50;
-    background: rgba(11, 17, 32, 0.9);
+    background: var(--nav-bg);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border);
+    transition: background 0.3s ease, border-color 0.3s ease;
   }
   nav .container { display: flex; align-items: center; justify-content: space-between; height: 68px; }
   nav .logo { font-weight: 800; font-size: 20px; color: var(--text); letter-spacing: 0.5px; }
@@ -41,12 +64,42 @@
   nav .links a { color: var(--text-dim); font-size: 14px; font-weight: 500; }
   nav .links a:hover { color: var(--accent); }
   nav .cv-btn {
-    background: var(--accent); color: #051022; padding: 8px 18px;
+    background: var(--accent); color: var(--btn-primary-text); padding: 8px 18px;
     border-radius: 6px; font-size: 14px; font-weight: 700;
     box-shadow: 0 0 15px var(--accent-glow);
     transition: transform 0.2s, background 0.2s;
   }
   nav .cv-btn:hover { background: #7cc4ff; transform: translateY(-1px); }
+
+  /* THEME TOGGLE BUTTON */
+  .theme-toggle-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .theme-toggle-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 10px var(--accent-glow);
+  }
+  .theme-toggle-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    transition: transform 0.4s ease;
+  }
+  .theme-toggle-btn:hover svg {
+    transform: rotate(30deg);
+  }
 
   /* HERO */
   .hero {
@@ -71,7 +124,7 @@
     padding: 11px 24px; border-radius: 8px; font-weight: 600; font-size: 14px;
     border: 1px solid var(--border); cursor: pointer; transition: all 0.2s ease;
   }
-  .btn-primary { background: var(--accent); color: #051022; border: none; font-weight: 700; }
+  .btn-primary { background: var(--accent); color: var(--btn-primary-text); border: none; font-weight: 700; }
   .btn-primary:hover { background: #7cc4ff; transform: translateY(-1px); box-shadow: 0 4px 15px var(--accent-glow); }
   .btn-outline { background: transparent; color: var(--text); }
   .btn-outline:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
@@ -124,7 +177,7 @@
   }
   .exp-card:hover { border-color: var(--accent); }
   .exp-card .top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-  .exp-card .top .title { font-size: 18px; font-weight: 700; color: #fff; }
+  .exp-card .top .title { font-size: 18px; font-weight: 700; color: var(--text); }
   .exp-card .top .company { color: var(--accent); font-size: 15px; font-weight: 600; }
   .exp-card .top .dates { color: var(--text-dim); font-size: 13.5px; font-style: italic; }
   .exp-card ul { margin: 8px 0 0; padding-left: 20px; color: var(--text-dim); font-size: 14.5px; }
@@ -194,7 +247,12 @@
       <a href="#education">Education</a>
       <a href="#contact">Contact</a>
     </div>
-    <a class="cv-btn" href="Md.Rajaul-Karim-CV.pdf" download>Download CV</a>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 0 1 0-16v16z"/></svg>
+      </button>
+      <a class="cv-btn" href="Md.Rajaul-Karim-CV.pdf" download>Download CV</a>
+    </div>
   </div>
 </nav>
 
@@ -465,6 +523,30 @@
     <div class="footer-bottom">&copy; 2026 Md. Rajaul Karim. Built with passion &bull; Hosted on GitHub Pages</div>
   </div>
 </footer>
+
+<script>
+  (function() {
+    const toggleBtn = document.getElementById('theme-toggle');
+    const root = document.documentElement;
+
+    // Load saved preference or default to dark
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      root.setAttribute('data-theme', savedTheme);
+    } else if (!root.getAttribute('data-theme')) {
+      root.setAttribute('data-theme', 'dark');
+    }
+
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', function() {
+        const currentTheme = root.getAttribute('data-theme') || 'dark';
+        const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', nextTheme);
+        localStorage.setItem('theme', nextTheme);
+      });
+    }
+  })();
+</script>
 
 </body>
 </html>
